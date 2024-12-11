@@ -7,6 +7,7 @@ import { appRoutes } from "../constants/routes";
 import Home from "../components/Home";
 import Contact from "../components/Contact";
 import Products from "../components/Products";
+import Compare from "../components/Compare";
 
 function AppPage() {
     const navigate = useNavigate()
@@ -28,7 +29,7 @@ function AppPage() {
                 <Routes>
                     <Route path={appRoutes.HOME} element={<Home />} />
                     <Route path={appRoutes.PRODUCTS} element={<Products/>} />
-                    <Route path={appRoutes.COMPARE} element={<div> Compare</div>} />
+                    <Route path={appRoutes.COMPARE} element={<Compare/>} />
                     <Route path={appRoutes.SHOP} element={<div> Shop</div>} />
                     <Route path={appRoutes.CONTACT} element={<Contact />} />
                     <Route

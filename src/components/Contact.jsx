@@ -6,7 +6,7 @@ function Contact() {
         <h2 class="text-2xl font-bold text-gray-800 text-center">Contact Us</h2>
         <p class="text-gray-600 text-center mb-6">We'd love to hear from you!</p>
         <form action="#" method="POST" class="space-y-4">
-\        <div>
+        <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
             <input
             type="text"
