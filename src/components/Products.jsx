@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import productsData from "../mock/products.json"; // Import the JSON file
+import { appRoutes } from "../constants/routes";
+import { useNavigate } from "react-router-dom";
+
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate(); 
+  
+  const moveToProductDetailPage = (productId) => { 
+    navigate(`/${appRoutes.PRODUCTDETAIL}`); 
+  }
 
   useEffect(() => {
     // Load products from JSON file
@@ -40,6 +48,7 @@ const ProductPage = () => {
             <div
               key={product.id}
               className="bg-white border rounded-lg p-4 hover:shadow-lg transition"
+              onClick={() => moveToProductDetailPage(product.id)}
             >
               <img
                 src={product.image}  // Use the image path from the JSON
