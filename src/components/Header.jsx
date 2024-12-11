@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { appRoutes } from "../constants/routes";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Header(activeSection) {
     const navigate = useNavigate();
-
+    const location = useLocation();
+    console.log("Location: ", location.pathname);
     const menuItems = [
         { route: "/app/home", label: "Home" },
         { route: "/app/products", label: "Products" },
@@ -23,14 +23,19 @@ function Header(activeSection) {
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-bold">VBMatch</h1>
         <nav className="flex space-x-4">
-          {menuItems.map((item) => (
-            <button
-              key={item.route}
-              className={activeSection === item.route ? "hover:underline active" : "hover:underline"}
-              onClick={() => handleItemClick(item.route)}>
-              {item.label}
-            </button>
-          ))}
+            {menuItems.map((item) => (
+              <button
+                key={item.route}
+                className={`px-4 py-2 rounded 
+                  ${
+                    location.pathname === item.route
+                      ? "bg-blue-500 text-white-bold"
+                      : "hover:bg-gray-200 text-gray-700"
+                  }`}
+                onClick={() => handleItemClick(item.route)}>
+                {item.label}
+              </button>
+            ))}
         </nav>
       </div>
     </header>
