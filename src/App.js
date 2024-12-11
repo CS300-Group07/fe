@@ -1,8 +1,7 @@
 import { React } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation} from "react-router-dom";
 import { routes } from "./constants/routes";
 import "./App.css";
-import { useLocation } from "react-router-dom";
 import DynamicTitle from "./utils/DynamicTitle";
 import AppPage from "./pages/AppPage";
 import LoginPage from "./pages/LoginPage";

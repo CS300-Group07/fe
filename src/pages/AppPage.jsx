@@ -11,10 +11,10 @@ function AppPage() {
     const location = useLocation()
     const [activeSection, setActiveSection] = useState("");
     useEffect(() => {
-    // Extracting the section from the current path
+        // Extracting the section from the current path
         const pathSections = location.pathname.split("/");
         setActiveSection(pathSections[2]); // Using index 1 to get the second element
-    }, [location.pathname]);
+      }, [location.pathname]);
 
     return (
         <div className="font-sans">
@@ -23,11 +23,13 @@ function AppPage() {
                     <Header activeSection={activeSection}/>
                 </div>
                 <div className="ContentContainer">
-                    <Home>
-                        
-                    </Home>
-                    
-
+                    <Routes>
+                        <Route path={appRoutes.HOME} element={<Home />} />
+                        <Route
+                            path="/"
+                            element={<Navigate to={appRoutes.HOME} replace />}
+                        />
+                    </Routes>
                 </div>
                 
                 <div className="FooterContainer">
