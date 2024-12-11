@@ -6,14 +6,16 @@ function Header(activeSection) {
     const navigate = useNavigate();
 
     const menuItems = [
-        { route: appRoutes.HOME, label: "Home" },
-        { route: appRoutes.PRODUCTS, label: "Products" },
-        { route: appRoutes.SHOP, label: "Shop" },
-        { route: appRoutes.CONTACT, label: "Contact" }
+        { route: "/app/home", label: "Home" },
+        { route: "/app/products", label: "Products" },
+        { route: "/app/compare", label: "Compare" },
+        { route: "/app/shop", label: "Shop" },
+        { route: "/app/contact", label: "Contact" }
     ];
 
     const handleItemClick = (route) => {
         // Navigate to the clicked route
+        console.log("Navigating to: ", route);
         navigate(route);
     };
   return (

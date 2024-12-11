@@ -13,29 +13,29 @@ function AppPage() {
     useEffect(() => {
         // Extracting the section from the current path
         const pathSections = location.pathname.split("/");
+        console.log("Path sections: ", pathSections);
         setActiveSection(pathSections[2]); // Using index 1 to get the second element
-      }, [location.pathname]);
+    }, [location.pathname]);
 
     return (
-        <div className="font-sans">
-            <div className="AppPage">
-                <div className="HeaderContainer">
-                    <Header activeSection={activeSection}/>
-                </div>
-                <div className="ContentContainer">
-                    <Routes>
-                        <Route path={appRoutes.HOME} element={<Home />} />
-                        <Route
-                            path="/"
-                            element={<Navigate to={appRoutes.HOME} replace />}
-                        />
-                    </Routes>
-                </div>
-                
-                <div className="FooterContainer">
-                    <Footer />
-                </div>
-                
+        <div className="AppPage">
+            <div className="TopbarContainer">
+                <Header activeSection={activeSection} />
+            </div>
+            <div className="ContentContainer">
+            <div className="RightContent">
+                <Routes>
+                    <Route path={appRoutes.HOME} element={<Home />} />
+                    <Route path={appRoutes.PRODUCTS} element={<div> Products</div>} />
+                    <Route path={appRoutes.COMPARE} element={<div> Compare</div>} />
+                    <Route path={appRoutes.SHOP} element={<div> Shop</div>} />
+                    <Route path={appRoutes.CONTACT} element={<div> Contact</div>} />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/app/home" replace />}
+                    />
+                </Routes>
+            </div>
             </div>
         </div>
     );

@@ -16,10 +16,10 @@ function App() {
       </Helmet>
 
       <Routes>
-          <Route path="/" element={<Navigate to="/login" replace={true} />} />
+        <Route path="/" element={<Navigate to="/login" replace={true} />} />
 
-          <Route path={routes.LOGIN} element={<LoginPage />} />
-          <Route path={routes.APP} element={<AppPage />} />
+        <Route path={routes.LOGIN} element={<LoginPage />} />
+        <Route path={routes.APP} element={<AppPage />} />
       </Routes>
       
       </>
