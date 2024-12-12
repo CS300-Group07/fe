@@ -14,7 +14,7 @@ function ProductDetail() {
         {/* Image Section */}
         <div className="bg-white shadow p-4 rounded">
           <img
-            src="/path-to-oppo-find-x8-image"
+            src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRXAXtvyRoWjsmoYp33AOEIiWOfQsACEEY2MCURE35NtWmw6QXlopLaPgfE97sSETdBBFqnDkBJbpQfeWoxNahkGlUDr2xG9p-QxgkG7GGqx-ENsqXfz_BEDw"
             alt="OPPO Find X8 Pro"
             className="w-full h-96 object-cover rounded mb-4"
           />
