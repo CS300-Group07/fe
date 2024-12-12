@@ -2,14 +2,58 @@ import React, { useEffect, useState } from "react";
 import productsData from "../mock/products.json"; // Import the JSON file
 import { appRoutes } from "../constants/routes";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
+function SearchBar() {
+  const [inputValue, setInputValue] = useState('');
+  const navigate = useNavigate();
+  const handleSearch = () => {
+    if (inputValue.trim() !== '') {
+      const url = `/maophac/${encodeURIComponent(inputValue)}`;
+      console.log('Sending request to:', url);
+      navigate(url);
+      fetch(url, { method: 'GET' })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Response:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center mt-5">
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="Search..."
+        className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+      />
+      <button
+        onClick={handleSearch}
+        className="ml-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      >
+        Search
+      </button>
+    </div>
+  );
+}
+
+function getProducts(key) {
+// fetch data from localhost:5001/prducts?key=key
+    return fetch(`http://localhost:5001/products?key=${key}`)
+}
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
+  const {key} = useParams();
   const navigate = useNavigate(); 
   
   const moveToProductDetailPage = (productId) => { 
-    navigate(`/${appRoutes.PRODUCTDETAIL}`); 
+    navigate(`/app/${appRoutes.PRODUCTDETAIL}`); 
   }
 
   useEffect(() => {
@@ -21,8 +65,7 @@ const ProductPage = () => {
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold">Result for searched keyword: {"{key}"}</h1>
-          <p className="text-gray-600">Searched products</p>
+          <SearchBar />
         </div>
 
         <div className="flex justify-between items-center mb-6">

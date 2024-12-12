@@ -1,20 +1,5 @@
+
 {
   "products": [
-    {
-      "id": "1",
-      "name": "Product 1",
-      "originalPrice": 100.00,
-      "price": 80.00,
-      "image": "/images/product1.png",
-      "url": "https://shopee.vn/product1"
-    },
-    {
-      "id": "2",
-      "name": "Product 2",
-      "originalPrice": 150.00,
-      "price": 120.00,
-      "image": "/images/product2.png",
-      "url": "https://facebook.com/product2"
-    }
   ]
 }
