@@ -10,7 +10,8 @@ const appRoutes = {
   PRODUCTDETAIL: "product",
   COMPARE: "compare",
   SHOP: "shop",
-  CONTACT: "contact"
+  CONTACT: "contact",
+  NOTFOUND: "404",
 };
 export { routes, appRoutes };
   

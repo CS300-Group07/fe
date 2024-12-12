@@ -8,6 +8,8 @@ import Home from "../components/Home";
 import Contact from "../components/Contact";
 import Products from "../components/Products";
 import Compare from "../components/Compare";
+import NotFound from "../components/notfound";
+import ProductDetail from "../components/ProductDetail";
 
 function AppPage() {
     const navigate = useNavigate()
@@ -32,6 +34,8 @@ function AppPage() {
                     <Route path={appRoutes.COMPARE} element={<Compare/>} />
                     <Route path={appRoutes.SHOP} element={<div> Shop</div>} />
                     <Route path={appRoutes.CONTACT} element={<Contact />} />
+                    <Route path={appRoutes.NOTFOUND} element={<NotFound />} />
+                    <Route path={appRoutes.PRODUCTDETAIL} element={<ProductDetail/>}/>
                     <Route
                         path="*"
                         element={<Navigate to="/app/home" replace />}
