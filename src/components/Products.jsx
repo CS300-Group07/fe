@@ -9,7 +9,8 @@ function SearchBar() {
   const navigate = useNavigate();
   const handleSearch = () => {
     if (inputValue.trim() !== '') {
-      const url = `/maophac/${encodeURIComponent(inputValue)}`;
+      const be_url = `localhost:5002/${encodeURIComponent(inputValue)}`;
+      const url = `/app/products?key=${inputValue}`;
       console.log('Sending request to:', url);
       navigate(url);
       fetch(url, { method: 'GET' })
