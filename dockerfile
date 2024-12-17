@@ -2,9 +2,11 @@ FROM node:20.3.0 AS build
 
 WORKDIR /app 
 
-COPY . .
+COPY package*.json .
 
 RUN npm install
+
+COPY . .
 
 RUN npm run build 
 
