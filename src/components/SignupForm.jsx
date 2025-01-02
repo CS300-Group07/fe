@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { routes } from "../constants/routes";
 import axios from 'axios';
 
@@ -208,38 +208,46 @@ const SignupForm = () => {
       </div>
       {/* Social Signup Buttons */}
       <div className="flex justify-center space-x-4">
-        {/* Social buttons (Facebook, Twitter, Google) */}
-        <button className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none">
-          {/* Replace with Facebook Icon */}
+        {/* Facebook Button */}
+        <button
+          className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Sign in with Facebook"
+        >
+          {/* Facebook Icon */}
           <svg
-            className="w-5 h-5 mr-2 text-blue-600"
+            className="w-5 h-5"
             fill="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            {/* Facebook SVG Path */}
-            <path d="M22.676 0H1.326C.594 0 0 .593 0 1.326v21.348C0 23.407.593 24 1.326 24h11.494v-9.294H9.691V10.61h3.129V8.077c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.465.099 2.797.143v3.24l-1.92.001c-1.506 0-1.798.716-1.798 1.766v2.318h3.595l-.468 3.096h-3.127V24h6.14c.732 0 1.326-.593 1.326-1.326V1.326C24 .593 23.407 0 22.676 0"></path>
+            <path d="M22 12.07c0-5.52-4.48-10-10-10S2 6.55 2 12.07c0 4.99 3.66 9.12 8.44 9.88v-6.99h-2.54v-2.89h2.54V9.83c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.89h-2.34V22c4.78-.77 8.44-4.89 8.44-9.93z" />
           </svg>
-          Sign Up with Facebook
         </button>
-        <button className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none">
-          {/* Replace with Google Icon */}
+        {/* Google Button */}
+        <button
+          className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+          aria-label="Sign in with Google"
+        >
+          {/* Google Icon */}
           <svg
-            className="w-5 h-5 mr-2 text-red-600"
+            className="w-5 h-5"
             fill="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            {/* Google SVG Path */}
-            <path d="M21.805 10.023h-9.508v3.955h5.446c-.235 1.383-1.398 3.527-5.446 3.527-3.276 0-5.982-2.722-5.982-6.079s2.706-6.078 5.982-6.078c1.867 0 3.122.797 3.837 1.493l2.618-2.512C17.93 3.234 15.73 2 13.297 2 7.866 2 3.698 6.358 3.698 11.928S7.866 21.856 13.297 21.856c7.847 0 9.075-7.317 8.508-10.833z"></path>
+            <path d="M21.35 11.1h-9.18v2.7h5.22c-.45 1.91-2.21 2.97-5.22 2.97-3.16 0-5.74-2.6-5.74-5.77s2.58-5.77 5.74-5.77c1.67 0 3.17.7 4.25 1.83l2.81-2.8C17.76 2.54 15.06 1.37 12 1.37 6.48 1.37 2 5.82 2 11.33S6.48 21.3 12 21.3c5.64 0 10.05-4.15 10.05-9.97 0-.67-.07-1.32-.2-1.93h-.5z" />
           </svg>
-          Sign Up with Google
         </button>
       </div>
       {/* Login Link */}
       <p className="mt-8 text-sm text-center text-gray-700">
         Already have an account?{" "}
-        <a href="#" className="text-purple-600 hover:underline">
-          Log in
-        </a>
+        <Link
+          to={routes.LOGIN}
+          className="text-purple-600 hover:underline"
+        >
+          Login
+        </Link>
       </p>
     </div>
   );
