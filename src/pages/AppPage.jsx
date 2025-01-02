@@ -15,12 +15,15 @@ import ChatbotScreen from "../components/Chatbot";
 import Favourite from "../components/Favourite";
 
 function AppPage() {
+    const location = useLocation();
+    const isChatbotScreen = location.pathname.split("/")[2] === appRoutes.CHATBOT;
+
     return (
         <div className="AppPage flex flex-col h-screen overflow-hidden">
             <div className="TopbarContainer fixed top-0 left-0 w-full z-50">
                 <Header/>
             </div>
-            <div className = "mt-20 flex-1 overflow-y-auto">
+            <div className={`mt-20 flex-1 ${isChatbotScreen ? 'overflow-hidden' : 'overflow-y-auto'}`}>
                 <div className="ContentContainer">
                     <Routes>
                         <Route path={appRoutes.HOME} element={<Home />} />
@@ -40,12 +43,12 @@ function AppPage() {
                         />
                     </Routes>
                 </div>
-                <div className="FooterContainer">
-                    <Footer />
-                </div>
-
+                {!isChatbotScreen && (
+                    <div className="FooterContainer">
+                        <Footer />
+                    </div>
+                )}
             </div>
-            
         </div>
     );
 }

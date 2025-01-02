@@ -31,8 +31,8 @@ function ProductDetail() {
   // Check if yourObject exists to avoid errors
   if (isLoading) return <LoadingSpinner />;
   if (!product) 
-    return <div>
-              <h1 className='text-xl font-bold p-4'>Product not found</h1>
+    return <div className='flex justify-center h-screen'>
+              <h1 className='text-2xl font-bold p-4'>Product not found</h1>
             </div>;
   return (
     <div className="bg-gray-100 mx-auto p-4">
