@@ -3,6 +3,7 @@ import productsData from "../mock/products.json"; // Import the JSON file
 import { appRoutes } from "../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import ProductCard from "./ProductCard";
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
@@ -23,6 +24,7 @@ function SearchBar() {
         });
     }
   };
+
 
   return (
     <div className="flex justify-center items-center mt-5">
@@ -46,7 +48,25 @@ function SearchBar() {
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const {key} = useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  const handleFavoriteToggle = (product) => {
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    if (isFavorite(product.id)) {
+      // Remove from favorites
+      const updatedFavorites = savedFavorites.filter((fav) => fav.id !== product.id);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    } else {
+      // Add to favorites
+      savedFavorites.push(product);
+      localStorage.setItem("favorites", JSON.stringify(savedFavorites));
+    }
+  };
+
+  const isFavorite = (productId) => {
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    return savedFavorites.some((fav) => fav.id === productId);
+  };
   
   const moveToProductDetailPage = (productId) => { 
     navigate(`/app/${appRoutes.PRODUCTDETAIL}`); 
@@ -87,24 +107,10 @@ const ProductPage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white border rounded-lg p-4 hover:shadow-lg transition"
-              onClick={() => moveToProductDetailPage(product.id)}
-            >
-              <img
-                src={product.image}  // Use the image path from the JSON
-                alt={product.name}
-                className="h-64 w-full object-contain mb-4"
-              />
-              <h2 className="text-lg font-semibold">{product.name}</h2>
-              <p className="text-red-500 text-sm line-through">
-                ${product.originalPrice}
-              </p>
-              <p className="text-green-500 font-bold">${product.price}</p>
-            </div>
+            <ProductCard key={product.id} product={product} />
           ))}
-        </div>
+        </div>;
+
 
         <div className="flex justify-center mt-6">
           <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">

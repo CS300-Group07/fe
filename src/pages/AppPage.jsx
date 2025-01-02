@@ -11,6 +11,7 @@ import Compare from "../components/Compare";
 import NotFound from "../components/notfound";
 import ProductDetail from "../components/ProductDetail";
 import ChatbotScreen from "../components/chatbot";
+import Favourite from "../components/Favourite";
 
 function AppPage() {
     const navigate = useNavigate()
@@ -34,8 +35,7 @@ function AppPage() {
                     <Route path={appRoutes.PRODUCTS} element={<Products/>} />
                     <Route path={appRoutes.PRODUCTS_SEARCH} element={<Products/>} />
                     <Route path={appRoutes.COMPARE} element={<Compare/>} />
-                    <Route path={appRoutes.SHOP} element={<div> Shop</div>} />
-                    <Route path={appRoutes.CONTACT} element={<Contact />} />
+                    <Route path={appRoutes.FAVOURITE} element={<Favourite/>} />
                     <Route path={appRoutes.NOTFOUND} element={<NotFound />} />
                     <Route path={appRoutes.PRODUCTDETAIL} element={<ProductDetail/>}/>
                     <Route path={appRoutes.CHATBOT} element={<ChatbotScreen/>}/>

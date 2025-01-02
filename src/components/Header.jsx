@@ -9,8 +9,7 @@ function Header(activeSection) {
         { route: "/app/home", label: "Home" },
         { route: "/app/products", label: "Products" },
         { route: "/app/compare", label: "Compare" },
-        { route: "/app/shop", label: "Shop" },
-        { route: "/app/contact", label: "Contact" }
+        { route: "/app/favourite", label: "Favourite" },
     ];
 
     const handleItemClick = (route) => {
