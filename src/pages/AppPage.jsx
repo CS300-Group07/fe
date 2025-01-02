@@ -43,7 +43,7 @@ function AppPage() {
                         <Route path={appRoutes.NOTFOUND} element={<NotFound />} />
                         <Route path={appRoutes.FAVOURITE} element={<Favourite/>} />
                         <Route path={appRoutes.PRODUCTDETAIL} element={<ProductDetail/>}/>
-                        <Route path={appRoutes.CHATBOT} element={<ChatbotScreen/>}/>
+                        <Route path={appRoutes.CHATBOT} element={<ChatbotScreen/>} />
                         <Route
                             path="*"
                             element={<Navigate to="/app/home" replace />}

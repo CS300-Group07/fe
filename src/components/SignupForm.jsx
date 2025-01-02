@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants/routes";
 import axios from 'axios';
+import CCCookies from 'universal-cookie';
 
 // Custom Open Eye Icon
 const EyeIcon = () => (
@@ -67,7 +68,7 @@ const SignupForm = () => {
       // Check if signup is successful
       if (response.data !== null) {
         // Navigate to the app route on successful signup
-        navigate(routes.APP);
+        navigate(routes.LOGIN);
       } else {
         // Handle signup failure (e.g., show an error message)
         console.error('Signup failed:', response.data.message);

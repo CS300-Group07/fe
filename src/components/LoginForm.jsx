@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants/routes";
 import axios from 'axios';
+import CCCookies from 'universal-cookie';
 
 // Custom Open Eye Icon
 const EyeIcon = () => (
@@ -23,8 +24,8 @@ const LoginForm = () => {
 
   // State for password visibility
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Make handleSubmit async to use await inside
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
     const username = e.target.elements.username.value; // Get username
@@ -43,21 +44,28 @@ const LoginForm = () => {
       console.log(response.data);
 
       // Check if login is successful
-      if (response.data['cookies'] != null) {
-        // Navigate to the app route on successful login
+      if (response.data['response'] !== null) {
+        const userId = response.data['cookies']; // Get userId from response
+        const cookies = new CCCookies(); // Create a new cookie object 
+        cookies.set('userId', userId, { path: '/' }); // Set the userId cookie
         navigate(routes.APP);
       } else {
         // Handle login failure (e.g., show an error message)
         console.error('Login failed:', response.data.message);
+        setErrorMessage('Login failed. Please check your credentials.');
       }
     } catch (error) {
       // Handle errors from the request
       console.error("Error during login:", error);
+      setErrorMessage('An error occurred during login. Please try again.');
     }
   };
 
   return (
     <div>
+      {/* Display error message */}
+      {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
+
       {/* Form */}
       <form onSubmit={handleSubmit}>
         {/* Username Input */}
