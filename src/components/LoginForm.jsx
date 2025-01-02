@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { routes } from "../constants/routes";
 import axios from 'axios';
 import CCCookies from 'universal-cookie';
@@ -141,15 +141,16 @@ const LoginForm = () => {
       </div>
       {/* Social Login Buttons */}
       <div className="flex justify-center space-x-4">
-        {/* Social buttons (Facebook, Twitter, Google) */}
-        {/* ... (Your existing social login buttons) ... */}
       </div>
       {/* Sign Up Link */}
       <p className="mt-8 text-sm text-center text-gray-700">
         Don't have an account?{" "}
-        <a href="#" className="text-purple-600 hover:underline">
+        <Link
+          to={routes.SIGNUP}
+          className="text-purple-600 hover:underline"
+        >
           Sign up
-        </a>
+        </Link>
       </p>
     </div>
   );
