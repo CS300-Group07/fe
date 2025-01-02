@@ -5,13 +5,13 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { appRoutes } from "../constants/routes";
 import Home from "../components/Home";
-import Contact from "../components/Contact";
 import Products from "../components/Products";
 import ProductPage from "../components/ProductPage";
 import Compare from "../components/Compare";
 import NotFound from "../components/NotFound";
 import ProductDetail from "../components/ProductDetail";
 import ChatbotScreen from "../components/Chatbot";
+import Favourite from "../components/Favourite";
 
 function AppPage() {
     const navigate = useNavigate()
@@ -39,9 +39,8 @@ function AppPage() {
                         </Route>
                         <Route path={appRoutes.PRODUCTS_SEARCH} element={<Products/>} />
                         <Route path={appRoutes.COMPARE} element={<Compare/>} />
-                        <Route path={appRoutes.SHOP} element={<div> Shop</div>} />
-                        <Route path={appRoutes.CONTACT} element={<Contact />} />
                         <Route path={appRoutes.NOTFOUND} element={<NotFound />} />
+                        <Route path={appRoutes.FAVOURITE} element={<Favourite/>} />
                         <Route path={appRoutes.PRODUCTDETAIL} element={<ProductDetail/>}/>
                         <Route path={appRoutes.CHATBOT} element={<ChatbotScreen/>}/>
                         <Route
@@ -54,6 +53,7 @@ function AppPage() {
                     <Footer />
                 </div>
             </div>
+            
         </div>
     );
 }
