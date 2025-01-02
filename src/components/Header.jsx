@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function Header(activeSection) {
+function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     console.log("Location: ", location.pathname);

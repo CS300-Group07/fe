@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import productsData from "../mock/products.json"; // Import the JSON file
-import { appRoutes } from "../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -43,23 +42,24 @@ function SearchBar() {
   );
 }
 
-const ProductPage = () => {
+const Products = () => {
   const [products, setProducts] = useState([]);
   const {key} = useParams();
   const navigate = useNavigate(); 
   
-  const moveToProductDetailPage = (productId) => { 
-    navigate(`/app/${appRoutes.PRODUCTDETAIL}`); 
-    window.open('https://www.google.com/url?url=https://xaba.vn/new-louis-vuittondiane-pm-st-nm-mng-handbag-monogram-m45985-v1i404808420052i0.html%3Fsrsltid%3DAfmBOopacWe2DDgq1Mmu7zzY0ToUH7R4zVcZOHqdLQ5_d7cqk1LHEepIbqA&rct=j&q=&esrc=s&opi=95576897&sa=U&ved=0ahUKEwjq_NOYsaKKAxXILEQIHaG9GQgQ2SkI5QI&usg=AOvVaw3uwn26MpiW7mYeEZo_tYVZ', '_blank');
+  const moveToProductDetailPage = ([productID]) => { 
+    navigate(`${productID}`, { state: { productID: productID } }); 
+    //window.open('https://www.google.com/url?url=https://xaba.vn/new-louis-vuittondiane-pm-st-nm-mng-handbag-monogram-m45985-v1i404808420052i0.html%3Fsrsltid%3DAfmBOopacWe2DDgq1Mmu7zzY0ToUH7R4zVcZOHqdLQ5_d7cqk1LHEepIbqA&rct=j&q=&esrc=s&opi=95576897&sa=U&ved=0ahUKEwjq_NOYsaKKAxXILEQIHaG9GQgQ2SkI5QI&usg=AOvVaw3uwn26MpiW7mYeEZo_tYVZ', '_blank');
   }
-  var data = productsData.products;
+  var data = productsData;
   if (key != null) {
+    console.log('Key NULL');
     data = null
   }
-    useEffect(() => {
-        // Load products from JSON file
-        setProducts(data);
-    }, []);
+  useEffect(() => {
+      // Load products from JSON file
+      setProducts(data);
+  }, []);
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">
@@ -119,4 +119,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default Products;
