@@ -9,7 +9,7 @@ import Contact from "../components/Contact";
 import Products from "../components/Products";
 import ProductPage from "../components/ProductPage";
 import Compare from "../components/Compare";
-import NotFound from "../components/notfound";
+import NotFound from "../components/NotFound";
 import ProductDetail from "../components/ProductDetail";
 import ChatbotScreen from "../components/chatbot";
 import Favourite from "../components/Favourite";
@@ -26,8 +26,8 @@ function AppPage() {
     }, [location.pathname]);
 
     return (
-        <div className="AppPage">
-            <div className="TopbarContainer">
+        <div className="AppPage flex flex-col h-screen overflow-hidden">
+            <div className="TopbarContainer fixed top-0 left-0 w-full z-50">
                 <Header/>
             </div>
             <div className="ContentContainer">

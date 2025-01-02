@@ -10,6 +10,7 @@ function Header() {
         { route: "/app/products", label: "Products" },
         { route: "/app/compare", label: "Compare" },
         { route: "/app/favourite", label: "Favourite" },
+        { route: "/app/chatbot", label: "Chatbot" }
     ];
 
     const handleItemClick = (route) => {
