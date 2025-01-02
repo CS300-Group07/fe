@@ -145,7 +145,8 @@ const Products = () => {
           .map((product) => (
               <div
                 key={product.id}
-                className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 relative cursor-pointer"
+                className="bg-white border rounded-lg p-4 hover:shadow-lg transition relative"
+
                 onClick={() => moveToProductDetailPage(product.id)}
               >
               {/* Favorite Button */}
@@ -156,13 +157,13 @@ const Products = () => {
                 }}
                 className={`absolute top-2 right-2 p-2 rounded-full ${
                   favoriteStatus[product.id] ? "bg-red-500 text-white" : "bg-gray-200"
-                } hover:bg-red-600`}
+                } hover:bg-red-600 z-10`}
               >
                 {favoriteStatus[product.id] ? "♥" : "♡"}
               </button>
 
               {/* Product Image */}
-              <div className="h-64 bg-gray-100 flex justify-center items-center">
+              <div className="h-64 w-full object-contain mb-4">
                   <img
                   src={product.image}
                   alt={product.name}
