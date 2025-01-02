@@ -7,6 +7,7 @@ import { appRoutes } from "../constants/routes";
 import Home from "../components/Home";
 import Contact from "../components/Contact";
 import Products from "../components/Products";
+import ProductPage from "../components/ProductPage";
 import Compare from "../components/Compare";
 import NotFound from "../components/notfound";
 import ProductDetail from "../components/ProductDetail";
@@ -27,12 +28,15 @@ function AppPage() {
     return (
         <div className="AppPage">
             <div className="TopbarContainer">
-                <Header activeSection={activeSection} />
+                <Header/>
             </div>
             <div className="ContentContainer">
                 <Routes>
                     <Route path={appRoutes.HOME} element={<Home />} />
-                    <Route path={appRoutes.PRODUCTS} element={<Products/>} />
+                    <Route path={appRoutes.PRODUCTS} element={<ProductPage/>}>
+                        <Route path=":productId" element={<ProductDetail/>}/>
+                        <Route path="" element={<Products />} />
+                    </Route>
                     <Route path={appRoutes.PRODUCTS_SEARCH} element={<Products/>} />
                     <Route path={appRoutes.COMPARE} element={<Compare/>} />
                     <Route path={appRoutes.FAVOURITE} element={<Favourite/>} />

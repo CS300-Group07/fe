@@ -1,6 +1,26 @@
 import React from 'react';
+import { useParams, useNavigate} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import mockData from '../mock/products.json';
 
 function ProductDetail() {
+  const {productId} = useParams();
+  const [productData, setproductData] = useState(null);
+  const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    const filteredproduct = mockData.find(
+      (product) => product.id === productId,
+    );
+    setproductData(filteredproduct);
+  }, [productId]);
+  if (!productData) {
+    return <div>Cannot file product</div>;
+  }
+  const onBackButtonClicked = () => {
+    navigate(`/app/products`);
+  };
   return (
     <div className="bg-gray-100 p-4">
       {/* Header Section */}
@@ -14,15 +34,15 @@ function ProductDetail() {
         {/* Image Section */}
         <div className="bg-white shadow p-4 rounded">
           <img
-            src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRXAXtvyRoWjsmoYp33AOEIiWOfQsACEEY2MCURE35NtWmw6QXlopLaPgfE97sSETdBBFqnDkBJbpQfeWoxNahkGlUDr2xG9p-QxgkG7GGqx-ENsqXfz_BEDw"
-            alt="OPPO Find X8 Pro"
+            src={productData.image}
+            alt={productData.name}
             className="w-full h-96 object-cover rounded mb-4"
           />
         </div>
 
         {/* Pricing Section */}
         <div className="bg-white shadow p-4 rounded">
-          <h2 className="text-red-500 text-2xl font-bold mb-2">29.990.000đ</h2>
+          <h2 className="text-red-500 text-2xl font-bold mb-2">${productData.price}</h2>
           <p className="text-orange-500 font-semibold">HÀNG SẮP VỀ</p>
 
           {/* Registration Form */}
