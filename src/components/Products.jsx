@@ -3,6 +3,7 @@ import productsData from "../mock/products.json"; // Import the JSON file
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import axios from "axios";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -10,6 +11,10 @@ const Products = () => {
   const [isIncreasingPrice, setIncreasingPrice] = useState(true);
   const navigate = useNavigate();
   const [favoriteStatus, setFavoriteStatus] = useState({});
+
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const searchKey = searchParams.get('key') || '';
 
   const isFavorite = (productId) => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -47,12 +52,18 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(8);
   const moveToProductDetailPage = (product) => { 
-    navigate(`${product.product_id}`, { state: { product } }); 
+    navigate(`${product.product_id}`); 
   }
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
-        const url = 'http://localhost:5002/products/trending';
+        let url = '';
+        if (searchKey) {
+          url = `http://localhost:5002/product/${searchKey}/hehe/20/0`;
+        } else {
+          url = 'http://localhost:5002/products/trending';
+        }
         console.log('Sending request to:', url);
         const response = await axios.get(url);
         setProducts(response.data);
@@ -63,7 +74,7 @@ const Products = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [searchKey]);
 
   useEffect(() => {
     products.sort((b,a) => {

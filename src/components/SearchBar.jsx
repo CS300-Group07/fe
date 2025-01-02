@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const SearchBar = ({ setProducts, setLoading, isIncreasingPrice}) => {
+    const navigate = useNavigate();
     const [inputValue, setInputValue] = useState('');
     const handleSearch = async () => {
         if (inputValue.trim() !== '') {
@@ -10,6 +12,7 @@ const SearchBar = ({ setProducts, setLoading, isIncreasingPrice}) => {
             const num = 20;
             const start = 0;
             const url = `http://localhost:5002/product/${inputValue}/hehe/${num}/${start}`;
+            navigate(`/app/products?key=${encodeURIComponent(inputValue.trim())}`);
             console.log('Sending request to:', url);
             const response = await axios.get(url);
             var products = response.data;

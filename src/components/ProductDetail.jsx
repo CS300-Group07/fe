@@ -1,23 +1,38 @@
 import React from 'react';
 import { useParams, useNavigate, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import mockData from '../mock/products.json';
+import axios from 'axios';
 
 function ProductDetail() {
-  const location = useLocation();
-  const { product } = location.state || {};
+  const { productId } = useParams();
+  const [product, setProduct] = useState(null);
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
 
+  useEffect(() => {
+    // Fetch product details from the server
+    const fetchProduct = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:5002/product/${productId}`);
+        setProduct(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching product details:', err);
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, []);
   const onBackButtonClicked = () => {
     navigate(`/app/products`);
   };
   // Check if yourObject exists to avoid errors
-  if (!product) {
-    return <p>No data received</p>;
-  }
+  if (isLoading) return <p>Loading product details...</p>;
+  if (!product) return <p>Product not found.</p>;
   console.log('Product:', product);
   return (
-    <div className="bg-gray-100 p-4">
+    <div className="bg-gray-100 mx-auto p-4">
       {/* Header Section */}
       <div className="bg-white shadow-md p-4 rounded mb-6">
         <h1 className="text-xl font-bold">Điện thoại OPPO Find X8 Pro 5G 16GB/512GB</h1>
