@@ -88,8 +88,8 @@ const Products = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(8);
-  const moveToProductDetailPage = ([productID]) => { 
-    navigate(`${productID}`, { state: { productID: productID } }); 
+  const moveToProductDetailPage = (productId) => { 
+    navigate(`${productId}`, { state: { productId: productId } }); 
     //window.open('https://www.google.com/url?url=https://xaba.vn/new-louis-vuittondiane-pm-st-nm-mng-handbag-monogram-m45985-v1i404808420052i0.html%3Fsrsltid%3DAfmBOopacWe2DDgq1Mmu7zzY0ToUH7R4zVcZOHqdLQ5_d7cqk1LHEepIbqA&rct=j&q=&esrc=s&opi=95576897&sa=U&ved=0ahUKEwjq_NOYsaKKAxXILEQIHaG9GQgQ2SkI5QI&usg=AOvVaw3uwn26MpiW7mYeEZo_tYVZ', '_blank');
   }
 
