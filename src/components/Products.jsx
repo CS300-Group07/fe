@@ -7,6 +7,7 @@ import axios from "axios";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [isIncreasingPrice, setIncreasingPrice] = useState(true);
   const navigate = useNavigate();
   const [favoriteStatus, setFavoriteStatus] = useState({});
 
@@ -45,8 +46,8 @@ const Products = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(8);
-  const moveToProductDetailPage = (productId) => { 
-    navigate(`${productId}`, { state: { productId: productId } }); 
+  const moveToProductDetailPage = (product) => { 
+    navigate(`${product.product_id}`, { state: { product } }); 
   }
   useEffect(() => {
     const fetchProducts = async () => {
@@ -54,7 +55,6 @@ const Products = () => {
         const url = 'http://localhost:5002/products/trending';
         console.log('Sending request to:', url);
         const response = await axios.get(url);
-        console.log('Response:', response.data);
         setProducts(response.data);
         setLoading(false);
       } catch (err) {
@@ -66,8 +66,14 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Products:', products);
-  }, [products]);
+    products.sort((b,a) => {
+      if (isIncreasingPrice) {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+  }, [products, isIncreasingPrice]);
 
   if (isLoading) 
     return <p>Loading products...</p>;
@@ -78,31 +84,31 @@ const Products = () => {
       if (currentPage + step > 0 && currentPage + step <= limitPage)
         setCurrentPage(currentPage + step);
   };
-  const handlePerPageChange = (e) => {
-      setProductsPerPage(parseInt(e.target.value));
-  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">
         <div className="text-center mb-6">
-          <SearchBar setProducts = {setProducts} setLoading={setLoading}/>
+          <SearchBar setProducts = {setProducts} setLoading={setLoading} isIncreasingPrice={isIncreasingPrice}/>
         </div>
 
         <div className="flex justify-between items-center mb-6">
-          <div>
+          <div className="z-10">
             <label htmlFor="perPage" className="text-gray-600 mr-2">Per Page:</label>
             <select id="perPage" className="border border-gray-300 rounded px-2 py-1"
               value={productsPerPage}
-              onChange={handlePerPageChange}>
+              onChange={(e) => setProductsPerPage(parseInt(e.target.value))}>
                 <option value="8">8</option>
                 <option value="12">12</option>
             </select>
           </div>
 
-          <div>
+          <div className="z-10">
             <label htmlFor="sortBy" className="text-gray-600 mr-2">Sort By:</label>
-            <select id="sortBy" className="border border-gray-300 rounded px-2 py-1">
+            <select id="sortBy" className="border border-gray-300 rounded px-2 py-1"
+              value={isIncreasingPrice ? "price-asc" : "price-desc"}
+              onChange={(e) => setIncreasingPrice(e.target.value === "price-asc")}
+            >
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
             </select>
@@ -116,7 +122,7 @@ const Products = () => {
               <div
                 className="bg-white border rounded-lg p-4 hover:shadow-lg transition relative"
                 key={product.product_id}
-                onClick={() => moveToProductDetailPage(product.product_id)}
+                onClick={() => moveToProductDetailPage(product)}
               >
               {/* Favorite Button */}
               <button
@@ -147,7 +153,7 @@ const Products = () => {
               {/* Product Image */}
               <div className="h-64 w-full object-contain mb-4">
                   <img
-                  src={product.image}
+                  src={product.image_url}
                   alt={product.name}
                   className="h-full w-full object-contain"
                   />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-const SearchBar = ({ setProducts, setLoading }) => {
+const SearchBar = ({ setProducts, setLoading, isIncreasingPrice}) => {
     const [inputValue, setInputValue] = useState('');
     const handleSearch = async () => {
         if (inputValue.trim() !== '') {
@@ -12,7 +12,15 @@ const SearchBar = ({ setProducts, setLoading }) => {
             const url = `http://localhost:5002/product/${inputValue}/hehe/${num}/${start}`;
             console.log('Sending request to:', url);
             const response = await axios.get(url);
-            setProducts(response.data);
+            var products = response.data;
+            products.sort((a,b) => {
+                if (isIncreasingPrice) {
+                    return a.price - b.price;
+                } else {
+                    return b.price - a.price;
+                }
+            });
+            setProducts(products);
             setLoading(false);
         } catch (err) {
             console.error('Error searching products:', err);
