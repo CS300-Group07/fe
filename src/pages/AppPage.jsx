@@ -9,7 +9,7 @@ import Contact from "../components/Contact";
 import Products from "../components/Products";
 import ProductPage from "../components/ProductPage";
 import Compare from "../components/Compare";
-import NotFound from "../components/NotFound";
+import NotFound from "../components/notfound";
 import ProductDetail from "../components/ProductDetail";
 import ChatbotScreen from "../components/chatbot";
 import Favourite from "../components/Favourite";
