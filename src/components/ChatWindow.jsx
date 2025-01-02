@@ -75,6 +75,7 @@ function ChatWindow({ conversationId }) {
     try {
       // Encode the message to be URL-safe
       const encodedMessage = encodeURIComponent(input.trim());
+      setInput('');
 
       // Send the message to the backend using the specified endpoint
       const response = await axios.post(
@@ -89,8 +90,6 @@ function ChatWindow({ conversationId }) {
     } catch (error) {
       console.error('Error sending message:', error);
     }
-
-    setInput('');
   };
 
   const handleInputKeyPress = (e) => {
