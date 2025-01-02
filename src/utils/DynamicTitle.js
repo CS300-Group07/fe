@@ -5,6 +5,8 @@ const TitleMap = {
   "/app/compare": "So sánh",
   "/app/shop": "Mua sắm",
   "/app/contact": "Liên hệ",
+  "/app/favourite": "Sản phẩm yêu thích",
+  "/app/chatbot": "Trò chuyện",
 };
 
 const DynamicTitle = (path) => {
