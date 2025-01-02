@@ -1,22 +1,36 @@
+// ConversationList.js
 import React from 'react';
 
-function ConversationList({ conversations, selectedConversationId, onSelectConversation }) {
+function ConversationList({
+  conversations,
+  conversationTitles,
+  selectedConversationId,
+  onSelectConversation,
+  onCreateNewConversation, // Receive the handler
+}) {
   return (
-    <div className="w-1/4 bg-gray-200 p-4 overflow-y-auto">
-      <h2 className="text-xl font-bold mb-4">Conversations</h2>
-      {conversations.length === 0 && <p>No conversations available.</p>}
+    <div className="w-1/3 bg-gray-100 p-2">
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-lg font-semibold">Conversations</h2>
+        <button
+          onClick={onCreateNewConversation}
+          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 text-sm"
+        >
+          Create New
+        </button>
+      </div>
       <ul>
-        {conversations.map((conversation) => (
+        {conversations.map((conversation, index) => (
           <li
             key={conversation.id}
-            className={`p-2 mb-2 cursor-pointer rounded ${
+            className={`p-2 cursor-pointer ${
               selectedConversationId === conversation.id
-                ? 'bg-blue-500 text-white'
-                : 'bg-white hover:bg-gray-100'
+                ? 'bg-blue-200'
+                : 'hover:bg-gray-200'
             }`}
             onClick={() => onSelectConversation(conversation.id)}
           >
-            Conversation {conversation.id}
+            {conversationTitles[index] || `Conversation ${conversation.id}`}
           </li>
         ))}
       </ul>
