@@ -1,66 +1,27 @@
 import React, { useEffect, useState } from "react";
 import productsData from "../mock/products.json"; // Import the JSON file
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
-function SearchBar() {
-  const [inputValue, setInputValue] = useState('');
-  const navigate = useNavigate();
-  const handleSearch = () => {
-    if (inputValue.trim() !== '') {
-      const be_url = `localhost:5002/${encodeURIComponent(inputValue)}`;
-      const url = `/app/products?key=${inputValue}`;
-      console.log('Sending request to:', url);
-      navigate(url);
-      fetch(url, { method: 'GET' })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Response:', data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-  };
-
-
-  return (
-    <div className="flex justify-center items-center mt-5">
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Search..."
-        className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-      />
-      <button
-        onClick={handleSearch}
-        className="ml-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-      >
-        Search
-      </button>
-    </div>
-  );
-}
+import SearchBar from "./SearchBar";
+import axios from "axios";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const {key} = useParams();
+  const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [favoriteStatus, setFavoriteStatus] = useState({});
 
   const isFavorite = (productId) => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    return savedFavorites.some((fav) => fav.id === productId);
+    return savedFavorites.some((fav) => fav.product_id === productId);
   };
 
   const handleFavoriteToggle = (product) => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     let updatedFavorites;
 
-    if (isFavorite(product.id)) {
+    if (isFavorite(product.product_id)) {
       // Remove from favorites
-      updatedFavorites = savedFavorites.filter((fav) => fav.id !== product.id);
+      updatedFavorites = savedFavorites.filter((fav) => fav.product_id !== product.product_id);
     } else {
       // Add to favorites
       updatedFavorites = [...savedFavorites, product];
@@ -70,17 +31,13 @@ const Products = () => {
 
     setFavoriteStatus((prevState) => ({
       ...prevState,
-      [product.id]: !prevState[product.id],
+      [product.product_id]: !prevState[product.product_id],
     })); // Toggle the favorite status  
   };
 
   useEffect(() => {
-    // Load products from mock data
-    setProducts(productsData);
-
-    // Initialize favorite status from localStorage
     const initialFavoriteStatus = productsData.reduce((status, product) => {
-      status[product.id] = isFavorite(product.id); // Check if product is a favorite
+      status[product.product_id] = isFavorite(product.product_id); // Check if product is a favorite
       return status;
     }, {});
     setFavoriteStatus(initialFavoriteStatus);
@@ -90,19 +47,32 @@ const Products = () => {
   const [productsPerPage, setProductsPerPage] = useState(8);
   const moveToProductDetailPage = (productId) => { 
     navigate(`${productId}`, { state: { productId: productId } }); 
-    //window.open('https://www.google.com/url?url=https://xaba.vn/new-louis-vuittondiane-pm-st-nm-mng-handbag-monogram-m45985-v1i404808420052i0.html%3Fsrsltid%3DAfmBOopacWe2DDgq1Mmu7zzY0ToUH7R4zVcZOHqdLQ5_d7cqk1LHEepIbqA&rct=j&q=&esrc=s&opi=95576897&sa=U&ved=0ahUKEwjq_NOYsaKKAxXILEQIHaG9GQgQ2SkI5QI&usg=AOvVaw3uwn26MpiW7mYeEZo_tYVZ', '_blank');
   }
-
-  var data = productsData;
-  if (key != null) {
-    console.log('Key NULL');
-    data = null
-  }
-  var limitPage = Math.ceil(data.length / productsPerPage);
   useEffect(() => {
-      // Load products from JSON file
-      setProducts(data);
+    const fetchProducts = async () => {
+      try {
+        const url = 'http://localhost:5002/products/trending';
+        console.log('Sending request to:', url);
+        const response = await axios.get(url);
+        console.log('Response:', response.data);
+        setProducts(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setLoading(false);
+      }
+    };
+    fetchProducts();
   }, []);
+
+  useEffect(() => {
+    console.log('Products:', products);
+  }, [products]);
+
+  if (isLoading) 
+    return <p>Loading products...</p>;
+
+  var limitPage = Math.ceil(products.length / productsPerPage);
 
   const handleCurrentPageChange = (step) => {
       if (currentPage + step > 0 && currentPage + step <= limitPage)
@@ -111,11 +81,12 @@ const Products = () => {
   const handlePerPageChange = (e) => {
       setProductsPerPage(parseInt(e.target.value));
   };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">
         <div className="text-center mb-6">
-          <SearchBar />
+          <SearchBar setProducts = {setProducts} setLoading={setLoading}/>
         </div>
 
         <div className="flex justify-between items-center mb-6">
@@ -143,10 +114,9 @@ const Products = () => {
           .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
           .map((product) => (
               <div
-                key={product.id}
                 className="bg-white border rounded-lg p-4 hover:shadow-lg transition relative"
-
-                onClick={() => moveToProductDetailPage(product.id)}
+                key={product.product_id}
+                onClick={() => moveToProductDetailPage(product.product_id)}
               >
               {/* Favorite Button */}
               <button
@@ -156,8 +126,8 @@ const Products = () => {
                 }}
                 className={`absolute top-2 right-2
                 flex items-center justify-center w-10 h-10 rounded-full focus:outline-none transition duration-200 z-10
-                ${favoriteStatus[product.id] ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-gray-200 text-gray-600 hover:bg-red-50 hover:text-red-500"}`}
-                aria-label={favoriteStatus[product.id] ? "Remove from favorites" : "Add to favorites"}
+                ${favoriteStatus[product.product_id] ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-gray-200 text-gray-600 hover:bg-red-50 hover:text-red-500"}`}
+                aria-label={favoriteStatus[product.product_id] ? "Remove from favorites" : "Add to favorites"}
               >
                 {/* Heart Icon */}
                 <svg
@@ -188,15 +158,16 @@ const Products = () => {
                   <h2 className="text-lg font-bold text-gray-800 mb-2 line-clamp-1">
                   {product.name}
                   </h2>
-                  <p className="text-sm text-gray-500 line-through">
-                  ${product.originalPrice}
-                  </p>
+                  {product.originalPrice && (
+                      <p className="text-sm text-gray-500 line-through">
+                      ${product.originalPrice}
+                      </p>
+                  )}
                   <p className="text-lg font-semibold text-green-600">${product.price}</p>
               </div>
             </div>
           ))}
       </div>
-
 
         <div className="flex justify-center mt-6">
           <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
