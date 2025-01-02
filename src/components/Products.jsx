@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import productsData from "../mock/products.json"; // Import the JSON file
-import { appRoutes } from "../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -43,23 +42,34 @@ function SearchBar() {
   );
 }
 
-const ProductPage = () => {
+const Products = () => {
   const [products, setProducts] = useState([]);
   const {key} = useParams();
   const navigate = useNavigate(); 
-  
-  const moveToProductDetailPage = (productId) => { 
-    navigate(`/app/${appRoutes.PRODUCTDETAIL}`); 
-    window.open('https://www.google.com/url?url=https://xaba.vn/new-louis-vuittondiane-pm-st-nm-mng-handbag-monogram-m45985-v1i404808420052i0.html%3Fsrsltid%3DAfmBOopacWe2DDgq1Mmu7zzY0ToUH7R4zVcZOHqdLQ5_d7cqk1LHEepIbqA&rct=j&q=&esrc=s&opi=95576897&sa=U&ved=0ahUKEwjq_NOYsaKKAxXILEQIHaG9GQgQ2SkI5QI&usg=AOvVaw3uwn26MpiW7mYeEZo_tYVZ', '_blank');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(8);
+  const moveToProductDetailPage = ([productID]) => { 
+    navigate(`${productID}`, { state: { productID: productID } }); 
+    //window.open('https://www.google.com/url?url=https://xaba.vn/new-louis-vuittondiane-pm-st-nm-mng-handbag-monogram-m45985-v1i404808420052i0.html%3Fsrsltid%3DAfmBOopacWe2DDgq1Mmu7zzY0ToUH7R4zVcZOHqdLQ5_d7cqk1LHEepIbqA&rct=j&q=&esrc=s&opi=95576897&sa=U&ved=0ahUKEwjq_NOYsaKKAxXILEQIHaG9GQgQ2SkI5QI&usg=AOvVaw3uwn26MpiW7mYeEZo_tYVZ', '_blank');
   }
-  var data = productsData.products;
+  var data = productsData;
   if (key != null) {
+    console.log('Key NULL');
     data = null
   }
-    useEffect(() => {
-        // Load products from JSON file
-        setProducts(data);
-    }, []);
+  var limitPage = Math.ceil(data.length / productsPerPage);
+  useEffect(() => {
+      // Load products from JSON file
+      setProducts(data);
+  }, []);
+
+  const handleCurrentPageChange = (step) => {
+      if (currentPage + step > 0 && currentPage + step <= limitPage)
+        setCurrentPage(currentPage + step);
+  };
+  const handlePerPageChange = (e) => {
+      setProductsPerPage(parseInt(e.target.value));
+  };
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">
@@ -70,9 +80,11 @@ const ProductPage = () => {
         <div className="flex justify-between items-center mb-6">
           <div>
             <label htmlFor="perPage" className="text-gray-600 mr-2">Per Page:</label>
-            <select id="perPage" className="border border-gray-300 rounded px-2 py-1">
-              <option value="12">12</option>
-              <option value="24">24</option>
+            <select id="perPage" className="border border-gray-300 rounded px-2 py-1"
+              value={productsPerPage}
+              onChange={handlePerPageChange}>
+                <option value="8">8</option>
+                <option value="12">12</option>
             </select>
           </div>
 
@@ -86,18 +98,16 @@ const ProductPage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white border rounded-lg p-4 hover:shadow-lg transition"
+          {products.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage).map((product) => (
+            <div key={product.id} className="bg-white border rounded-lg p-4 hover:shadow-lg transition"
               onClick={() => moveToProductDetailPage(product.id)}
             >
               <img
-                src={product.image}  // Use the image path from the JSON
+                src={product.image}
                 alt={product.name}
                 className="h-64 w-full object-contain mb-4"
               />
-              <h2 className="text-lg font-semibold">{product.name}</h2>
+              <h2 className="text-lg font-semibold text-gray-700">{product.name}</h2>
               <p className="text-red-500 text-sm line-through">
                 ${product.originalPrice}
               </p>
@@ -107,10 +117,14 @@ const ProductPage = () => {
         </div>
 
         <div className="flex justify-center mt-6">
-          <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+          <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+            onClick={() => handleCurrentPageChange(-1)}
+          >
             Previous
           </button>
-          <button className="bg-purple-500 text-white px-4 py-2 rounded ml-2 hover:bg-purple-600">
+          <button className="bg-purple-500 text-white px-4 py-2 rounded ml-2 hover:bg-purple-600"
+            onClick={() => handleCurrentPageChange(1)}
+          >
             Next
           </button>
         </div>
@@ -119,4 +133,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default Products;
