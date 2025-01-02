@@ -10,7 +10,8 @@ function Header() {
         { route: "/app/products", label: "Products" },
         { route: "/app/compare", label: "Compare" },
         { route: "/app/shop", label: "Shop" },
-        { route: "/app/contact", label: "Contact" }
+        { route: "/app/contact", label: "Contact" },
+        { route: "/app/chatbot", label: "Chatbot" }
     ];
 
     const handleItemClick = (route) => {
