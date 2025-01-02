@@ -11,6 +11,7 @@ const appRoutes = {
   PRODUCTDETAIL: "product",
   COMPARE: "compare",
   SHOP: "shop",
+  FAVOURITE: "favourite",
   CONTACT: "contact",
   CHATBOT: "chatbot",
   NOTFOUND: "404",
