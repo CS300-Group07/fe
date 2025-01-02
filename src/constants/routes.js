@@ -1,5 +1,6 @@
 const routes = {
   LOGIN: "/login",
+  SIGNUP: "/signup",
   APP: "/app/*",
   ERROR: "/error",
 };
