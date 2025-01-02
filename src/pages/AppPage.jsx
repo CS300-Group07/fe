@@ -8,9 +8,10 @@ import Home from "../components/Home";
 import Products from "../components/Products";
 import ProductPage from "../components/ProductPage";
 import Compare from "../components/Compare";
-import NotFound from "../components/NotFound";
+import NotFound from "../components/notfound";
 import ProductDetail from "../components/ProductDetail";
 import ChatbotScreen from "../components/Chatbot";
+
 import Favourite from "../components/Favourite";
 
 function AppPage() {
@@ -52,6 +53,7 @@ function AppPage() {
                 <div className="FooterContainer">
                     <Footer />
                 </div>
+
             </div>
             
         </div>

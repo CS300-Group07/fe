@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import productsData from "../mock/products.json"; // Import the JSON file
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import ProductCard from "./ProductCard";
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
@@ -145,6 +146,7 @@ const Products = () => {
               <div
                 key={product.id}
                 className="bg-white border rounded-lg p-4 hover:shadow-lg transition relative"
+
                 onClick={() => moveToProductDetailPage(product.id)}
               >
               {/* Favorite Button */}
