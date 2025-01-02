@@ -4,7 +4,7 @@ import FeaturedProducts from "./FeaturedProducts";
 import LatestProducts from "./LatestProducts";
 import TrendingProducts from "./TrendingProducts";
 
-function Header() {
+function Home() {
   return (
     <>
         <AboutUs />
@@ -17,4 +17,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Home;
