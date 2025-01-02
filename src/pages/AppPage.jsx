@@ -10,6 +10,7 @@ import Products from "../components/Products";
 import Compare from "../components/Compare";
 import NotFound from "../components/notfound";
 import ProductDetail from "../components/ProductDetail";
+import ChatbotScreen from "../components/chatbot";
 
 function AppPage() {
     const navigate = useNavigate()
@@ -37,6 +38,7 @@ function AppPage() {
                     <Route path={appRoutes.CONTACT} element={<Contact />} />
                     <Route path={appRoutes.NOTFOUND} element={<NotFound />} />
                     <Route path={appRoutes.PRODUCTDETAIL} element={<ProductDetail/>}/>
+                    <Route path={appRoutes.CHATBOT} element={<ChatbotScreen/>}/>
                     <Route
                         path="*"
                         element={<Navigate to="/app/home" replace />}

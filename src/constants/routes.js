@@ -12,6 +12,7 @@ const appRoutes = {
   COMPARE: "compare",
   SHOP: "shop",
   CONTACT: "contact",
+  CHATBOT: "chatbot",
   NOTFOUND: "404",
 };
 export { routes, appRoutes };
