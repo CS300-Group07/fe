@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import productsData from "../mock/products.json"; // Import the JSON file
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import ProductCard from "./ProductCard";
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
@@ -155,11 +154,24 @@ const Products = () => {
                   e.stopPropagation(); // Prevent navigation when clicking the favorite button
                   handleFavoriteToggle(product);
                 }}
-                className={`absolute top-2 right-2 p-2 rounded-full ${
-                  favoriteStatus[product.id] ? "bg-red-500 text-white" : "bg-gray-200"
-                } hover:bg-red-600 z-10`}
+                className={`absolute top-2 right-2
+                flex items-center justify-center w-10 h-10 rounded-full focus:outline-none transition duration-200 z-10
+                ${favoriteStatus[product.id] ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-gray-200 text-gray-600 hover:bg-red-50 hover:text-red-500"}`}
+                aria-label={favoriteStatus[product.id] ? "Remove from favorites" : "Add to favorites"}
               >
-                {favoriteStatus[product.id] ? "♥" : "♡"}
+                {/* Heart Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`w-6 h-6 fill-current transition-transform duration-200 ${
+                    isFavorite ? "transform scale-110" : ""
+                  }`}
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18l-6.828-6.828a4 4 0 010-5.656z"
+                  />
+                </svg>
               </button>
 
               {/* Product Image */}
