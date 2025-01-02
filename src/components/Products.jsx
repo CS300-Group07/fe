@@ -52,7 +52,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(8);
   const moveToProductDetailPage = (product) => { 
-    navigate(`${product.product_id}`); 
+      navigate(`${product.product_id}`); 
   }
   useEffect(() => {
     const fetchProducts = async () => {

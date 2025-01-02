@@ -15,16 +15,6 @@ import ChatbotScreen from "../components/Chatbot";
 import Favourite from "../components/Favourite";
 
 function AppPage() {
-    const navigate = useNavigate()
-    const location = useLocation()
-    const [activeSection, setActiveSection] = useState("");
-    useEffect(() => {
-        // Extracting the section from the current path
-        const pathSections = location.pathname.split("/");
-        console.log("Path sections: ", pathSections);
-        setActiveSection(pathSections[2]); // Using index 1 to get the second element
-    }, [location.pathname]);
-
     return (
         <div className="AppPage flex flex-col h-screen overflow-hidden">
             <div className="TopbarContainer fixed top-0 left-0 w-full z-50">

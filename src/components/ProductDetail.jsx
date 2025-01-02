@@ -30,13 +30,25 @@ function ProductDetail() {
   // Check if yourObject exists to avoid errors
   if (isLoading) return <p>Loading product details...</p>;
   if (!product) return <p>Product not found.</p>;
-  console.log('Product:', product);
   return (
     <div className="bg-gray-100 mx-auto p-4">
       {/* Header Section */}
-      <div className="bg-white shadow-md p-4 rounded mb-6">
-        <h1 className="text-xl font-bold">Điện thoại OPPO Find X8 Pro 5G 16GB/512GB</h1>
-        <p className="text-yellow-500 font-bold">Chỉ có tại <span className="text-black">thegioididong</span></p>
+      <div className="bg-white shadow-md p-4 rounded mb-6 flex justify-between items-center">
+        <div>
+          <h1 className="text-xl font-bold">{product.name}</h1>
+          <p className="text-yellow-500 font-bold">
+            Chỉ có tại <span className="text-black">thegioididong</span>
+          </p>
+        </div>
+        {/* Navigate to Original URL Button */}
+        <a
+          href={product.product_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Xem sản phẩm gốc
+        </a>
       </div>
 
       {/* Product Details Section */}

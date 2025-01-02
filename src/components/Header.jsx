@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
-    console.log("Location: ", location.pathname);
+    const pathSections = location.pathname.split("/").slice(0, 3).join("/");
+    
     const menuItems = [
         { route: "/app/home", label: "Home" },
         { route: "/app/products", label: "Products" },
@@ -28,7 +29,7 @@ function Header() {
                 key={item.route}
                 className={`px-4 py-2 rounded 
                   ${
-                    location.pathname === item.route
+                    pathSections === item.route
                       ? "bg-blue-500 text-white-bold"
                       : "hover:bg-gray-200 text-gray-700"
                   }`}
