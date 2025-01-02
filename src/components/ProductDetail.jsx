@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import LoadingSpinner from './LoadingSpinner';
 
 function ProductDetail() {
   const { productId } = useParams();
@@ -28,8 +29,11 @@ function ProductDetail() {
     navigate(`/app/products`);
   };
   // Check if yourObject exists to avoid errors
-  if (isLoading) return <p>Loading product details...</p>;
-  if (!product) return <p>Product not found.</p>;
+  if (isLoading) return <LoadingSpinner />;
+  if (!product) 
+    return <div>
+              <h1 className='text-xl font-bold p-4'>Product not found</h1>
+            </div>;
   return (
     <div className="bg-gray-100 mx-auto p-4">
       {/* Header Section */}

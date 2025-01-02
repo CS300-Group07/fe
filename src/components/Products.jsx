@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import axios from "axios";
 import { useLocation, useSearchParams } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -87,7 +88,7 @@ const Products = () => {
   }, [products, isIncreasingPrice]);
 
   if (isLoading) 
-    return <p>Loading products...</p>;
+    return <LoadingSpinner />;
 
   var limitPage = Math.ceil(products.length / productsPerPage);
 

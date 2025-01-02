@@ -4,12 +4,6 @@ import Logo from "../images/Logo.png";
 import LoginForm from "../components/LoginForm";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //     navigate(routes.APP);
-  // }, []);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-800 to-purple-900 flex items-center justify-center">
       <div className="relative w-full max-w-md mx-auto overflow-hidden bg-white rounded-lg shadow-lg">

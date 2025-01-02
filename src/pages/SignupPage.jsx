@@ -4,13 +4,6 @@ import Logo from "../images/Logo.png";
 import SignupForm from "../components/SignupForm";
 
 const SignupPage = () => {
-  const navigate = useNavigate();
-
-  // You can add navigation logic here if needed.
-  // For example, redirect to the app if the user is already logged in.
-  // useEffect(() => {
-  //     navigate(routes.APP);
-  // }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-800 to-purple-900 flex items-center justify-center">
