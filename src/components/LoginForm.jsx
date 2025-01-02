@@ -24,8 +24,8 @@ const LoginForm = () => {
       // Print the response to the console
       console.log(response.data);
 
-      // if response.data['cookies'] starts with "cookies" then login is successful
-      if (response.data['cookies'] == "cookies") {
+      // if not null 
+      if (response.data['cookies'] !== null) {
         // Navigate to the app route on successful login
         navigate(routes.APP);
       } else {
