@@ -8,9 +8,9 @@ import Home from "../components/Home";
 import Products from "../components/Products";
 import ProductPage from "../components/ProductPage";
 import Compare from "../components/Compare";
-import NotFound from "../components/notfound";
+import NotFound from "../components/NotFound";
 import ProductDetail from "../components/ProductDetail";
-import ChatbotScreen from "../components/chatbot";
+import ChatbotScreen from "../components/Chatbot";
 
 import Favourite from "../components/Favourite";
 

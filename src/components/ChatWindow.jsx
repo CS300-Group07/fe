@@ -68,7 +68,7 @@ function ChatWindow({ conversationId }) {
     if (!input.trim()) return;
 
     const userMessage = { sender: 'user', text: input };
-
+    setInput('');
     // Add the user's message to the messages array to update the UI immediately
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
@@ -90,7 +90,7 @@ function ChatWindow({ conversationId }) {
       console.error('Error sending message:', error);
     }
 
-    setInput('');
+    
   };
 
   const handleInputKeyPress = (e) => {

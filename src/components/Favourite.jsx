@@ -1,26 +1,77 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 const FavoritePage = () => {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Load favorite products from localStorage
+  const cookies = new Cookies();
+  const userId = cookies.get('userId');
+
   useEffect(() => {
-    refreshFavoriteProducts();
-  }, []);
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+    fetchFavoriteProducts();
+  }, [userId]);
 
-  // Function to refresh the favorite products list
-  const refreshFavoriteProducts = () => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavoriteProducts(savedFavorites);
+  const fetchFavoriteProducts = async () => {
+    setLoading(true);
+    try {
+      const wishListUrl = `http://localhost:5002/wish-list/user/${userId}`;
+      const response = await axios.get(wishListUrl);
+      const favoriteProductIds = response.data;
+
+      const productDetailsPromises = favoriteProductIds.map((productId) =>
+        axios.get(`http://localhost:5002/product/${productId}`)
+      );
+      const productsResponses = await Promise.all(productDetailsPromises);
+      const products = productsResponses.map((res) => res.data);
+
+      setFavoriteProducts(products);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching favorite products:', error);
+      setLoading(false);
+    }
   };
 
-  // Remove a product from favorites
-  const removeFromFavorites = (productId) => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    const updatedFavorites = savedFavorites.filter((fav) => fav.product_id !== productId);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    refreshFavoriteProducts(); // Refresh the favorite products list
+  const removeFromFavorites = async (productId) => {
+    try {
+      const url = `http://localhost:5002/wish-list/remove/${userId}/${productId}`;
+      const response = await axios.post(url);
+      if (response.status === 200 && response.data.status === 'removed') {
+        setFavoriteProducts((prevProducts) =>
+          prevProducts.filter((product) => product.product_id !== productId)
+        );
+      } else {
+        console.error('Error removing favorite:', response.data);
+      }
+    } catch (error) {
+      console.error('Error removing favorite:', error);
+    }
   };
+
+  const navigateToProductDetail = (productId) => {
+    navigate(`/app/products/${productId}`);
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (!userId) {
+    return (
+      <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+        <p className="text-xl text-gray-700">Please log in to view your favorite products.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -36,6 +87,7 @@ const FavoritePage = () => {
               <div
                 key={product.product_id}
                 className="bg-white border rounded-lg p-4 hover:shadow-lg transition relative"
+                onClick={() => navigateToProductDetail(product.product_id)}
               >
                 <img
                   src={product.image_url}
@@ -43,13 +95,18 @@ const FavoritePage = () => {
                   className="h-64 w-full object-contain mb-4"
                 />
                 <h2 className="text-lg font-semibold">{product.name}</h2>
-                <p className="text-red-500 text-sm line-through">
-                  ${product.originalPrice}
-                </p>
+                {product.originalPrice && (
+                  <p className="text-red-500 text-sm line-through">
+                    ${product.originalPrice}
+                  </p>
+                )}
                 <p className="text-green-500 font-bold">${product.price}</p>
                 <div className="flex justify-between mt-4">
                   <button
-                    onClick={() => removeFromFavorites(product.product_id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFromFavorites(product.product_id);
+                    }}
                     className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600"
                   >
                     Remove
