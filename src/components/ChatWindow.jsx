@@ -32,36 +32,25 @@ function ChatWindow({ conversationId }) {
 
         const temp = {};
         for (let i = 1; i < response.data.length; i++) {
-          if (response.data[i].role === 'user') {
-            if (temp[conversationId] === undefined) {
-              temp[conversationId] = [];
-            }
-            temp[conversationId].push({
-              sender: 'user',
-              text: response.data[i].content,
-            });
-          } else {
-            if (temp[conversationId] === undefined) {
-              temp[conversationId] = [];
-            }
-            temp[conversationId].push({
-              sender: 'bot',
-              text: response.data[i].content,
-            });
+          const messageRole = response.data[i].role;
+          const messageContent = response.data[i].content;
+
+          if (!temp[conversationId]) {
+            temp[conversationId] = [];
           }
-        }
-        // If empty, add a bot message that says "Hello! How can I assist you today?"
-        if (
-          temp[conversationId] === undefined ||
-          temp[conversationId].length === 0
-        ) {
-          temp[conversationId] = [];
+
           temp[conversationId].push({
-            sender: 'bot',
-            text: 'Hello! How can I assist you today?',
+            sender: messageRole === 'user' ? 'user' : 'bot',
+            text: messageContent,
           });
         }
-        setMessages(temp[conversationId] || []);
+        // Add a default bot message if the conversation is empty
+        if (!temp[conversationId] || temp[conversationId].length === 0) {
+          temp[conversationId] = [
+            { sender: 'bot', text: 'Hello! How can I assist you today?' },
+          ];
+        }
+        setMessages(temp[conversationId]);
       } catch (error) {
         console.error('Error fetching messages:', error);
       }
@@ -86,6 +75,7 @@ function ChatWindow({ conversationId }) {
     try {
       // Encode the message to be URL-safe
       const encodedMessage = encodeURIComponent(input.trim());
+      setInput('');
 
       // Send the message to the backend using the specified endpoint
       const response = await axios.post(
@@ -100,48 +90,44 @@ function ChatWindow({ conversationId }) {
     } catch (error) {
       console.error('Error sending message:', error);
     }
-
-    setInput('');
   };
 
   const handleInputKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevents new line on Enter
       handleSendMessage();
     }
   };
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    //messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div className="flex flex-col flex-1 bg-white relative">
-      <div
-        className="flex-1 overflow-y-auto p-2" // Reduced padding from p-4 to p-2
-        style={{ marginBottom: '60px' }} // Reduced bottom margin
-      >
+    <div className="relative flex flex-col flex-1 h-screen">
+      {/* Messages container */}
+      <div className="flex-1 overflow-y-auto p-6 mb-40">
         {messages.map((message, index) => (
           <Message key={index} message={message} />
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div
-        className="absolute bottom-0 left-0 right-0 p-2 border-t bg-white" // Reduced padding from p-4 to p-2
-        style={{ height: '60px' }} // Reduced height
-      >
-        <div className="flex">
-          <input
-            type="text"
-            className="flex-1 p-1 border rounded-l text-sm" // Reduced padding and font size
+
+      {/* Input area at the bottom */}
+      <div className="w-full absolute bottom-20 left-1/2 transform -translate-x-1/2 p-4 bg-white">
+        <div className="flex items-center justify-center max-w-2xl mx-auto">
+          <textarea
+            className="flex-1 p-2 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Type your message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleInputKeyPress}
+            onKeyDown={handleInputKeyPress}
+            rows={1}
           />
           <button
             onClick={handleSendMessage}
             disabled={!input.trim()}
-            className={`bg-blue-500 text-white px-3 py-1 rounded-r text-sm ${
+            className={`ml-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded ${
               !input.trim()
                 ? 'opacity-50 cursor-not-allowed'
                 : 'hover:bg-blue-600'

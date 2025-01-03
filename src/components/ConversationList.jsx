@@ -6,34 +6,53 @@ function ConversationList({
   conversationTitles,
   selectedConversationId,
   onSelectConversation,
-  onCreateNewConversation, // Receive the handler
+  onCreateNewConversation,
 }) {
   return (
-    <div className="w-1/3 bg-gray-100 p-2">
-      <div className="flex items-center justify-between mb-2">
+    <div className="w-80 bg-gray-100 p-4 flex flex-col mb-16">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold">Conversations</h2>
         <button
           onClick={onCreateNewConversation}
-          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 text-sm"
+          className="bg-blue-500 font-semibold text-white px-3 py-1 rounded hover:bg-blue-600 text-sm"
         >
-          Create New
+          + New Chat
         </button>
       </div>
-      <ul>
+      <div className="flex-1 overflow-y-auto">
         {conversations.map((conversation, index) => (
-          <li
+          <div
             key={conversation.id}
-            className={`p-2 cursor-pointer ${
+            className={`flex items-center p-3 mb-2 rounded-lg cursor-pointer ${
               selectedConversationId === conversation.id
-                ? 'bg-blue-200'
+                ? 'bg-gray-200'
                 : 'hover:bg-gray-200'
             }`}
             onClick={() => onSelectConversation(conversation.id)}
           >
-            {conversationTitles[index] || `Conversation ${conversation.id}`}
-          </li>
+            {/* Icon */}
+            <div className="w-6 h-6 mr-3 text-gray-600">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                className="w-full h-full"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M8 7h8M8 11h8M8 15h5"
+                />
+              </svg>
+            </div>
+            {/* Conversation Title */}
+            <span className="flex-1 text-sm font-medium text-gray-700">
+              {conversationTitles[index] || `Conversation ${conversation.id}`}
+            </span>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

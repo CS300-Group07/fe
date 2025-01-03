@@ -1,32 +1,58 @@
 import React from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import mockData from '../mock/products.json';
+import axios from 'axios';
+import LoadingSpinner from './LoadingSpinner';
 
 function ProductDetail() {
-  const {productId} = useParams();
-  const [productData, setproductData] = useState(null);
+  const { productId } = useParams();
+  const [product, setProduct] = useState(null);
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
 
-  
   useEffect(() => {
-    const filteredproduct = mockData.find(
-      (product) => product.id === productId,
-    );
-    setproductData(filteredproduct);
-  }, [productId]);
-  if (!productData) {
-    return <div>Cannot file product</div>;
-  }
+    // Fetch product details from the server
+    const fetchProduct = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:5002/product/${productId}`);
+        setProduct(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching product details:', err);
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, []);
   const onBackButtonClicked = () => {
     navigate(`/app/products`);
   };
+  // Check if yourObject exists to avoid errors
+  if (isLoading) return <LoadingSpinner />;
+  if (!product) 
+    return <div className='flex justify-center h-screen'>
+              <h1 className='text-2xl font-bold p-4'>Product not found</h1>
+            </div>;
   return (
-    <div className="bg-gray-100 p-4">
+    <div className="bg-gray-100 mx-auto p-4">
       {/* Header Section */}
-      <div className="bg-white shadow-md p-4 rounded mb-6">
-        <h1 className="text-xl font-bold">Điện thoại OPPO Find X8 Pro 5G 16GB/512GB</h1>
-        <p className="text-yellow-500 font-bold">Chỉ có tại <span className="text-black">thegioididong</span></p>
+      <div className="bg-white shadow-md p-4 rounded mb-6 flex justify-between items-center">
+        <div>
+          <h1 className="text-xl font-bold">{product.name}</h1>
+          <p className="text-yellow-500 font-bold">
+            Chỉ có tại <span className="text-black">thegioididong</span>
+          </p>
+        </div>
+        {/* Navigate to Original URL Button */}
+        <a
+          href={product.product_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Xem sản phẩm gốc
+        </a>
       </div>
 
       {/* Product Details Section */}
@@ -34,15 +60,15 @@ function ProductDetail() {
         {/* Image Section */}
         <div className="bg-white shadow p-4 rounded">
           <img
-            src={productData.image}
-            alt={productData.name}
-            className="w-full h-96 object-cover rounded mb-4"
+            src={product.image_url}
+            alt={product.name}
+            className="w-full h-96 object-contain rounded mb-4"
           />
         </div>
 
         {/* Pricing Section */}
         <div className="bg-white shadow p-4 rounded">
-          <h2 className="text-red-500 text-2xl font-bold mb-2">${productData.price}</h2>
+          <h2 className="text-red-500 text-2xl font-bold mb-2">${product.price}</h2>
           <p className="text-orange-500 font-semibold">HÀNG SẮP VỀ</p>
 
           {/* Registration Form */}
