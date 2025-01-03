@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 function Compare() {
   // State to manage the available products
@@ -16,6 +18,10 @@ function Compare() {
 
   // State to manage errors
   const [error, setError] = useState(null);
+
+  // State to manage recommendations
+  const [recommendations, setRecommendations] = useState('');
+  const [isFetchingRecommendations, setIsFetchingRecommendations] = useState(false);
 
   // State to manage the current index of visible products in compare list
   const [currentCompareIndex, setCurrentCompareIndex] = useState(0);
@@ -109,6 +115,31 @@ function Compare() {
       setError('Lỗi khi tìm kiếm sản phẩm.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Function to fetch recommendations
+  const handleGetRecommendations = async () => {
+    if (compareProducts.length === 0) {
+      alert('Vui lòng thêm sản phẩm vào danh sách so sánh.');
+      return;
+    }
+    setIsFetchingRecommendations(true);
+    try {
+      // Collect the compare IDs from the compareProducts list
+      const compareIds = compareProducts.map((product) => product.product_id);
+      const response = await axios.post(
+        'http://localhost:5002/products/compare',
+        { id: compareIds }
+      );
+      if (response.status === 200) {
+        setRecommendations(response.data.message); // Assuming the response has a 'markdown' field
+      }
+    } catch (err) {
+      console.error('Error fetching recommendations:', err);
+      setError('Lỗi khi lấy gợi ý.');
+    } finally {
+      setIsFetchingRecommendations(false);
     }
   };
 
@@ -311,6 +342,26 @@ function Compare() {
                   {/* Add more rows as needed */}
                 </tbody>
               </table>
+            </div>
+
+            {/* Recommendations Section */}
+            <div className="mt-6 bg-white shadow rounded p-4">
+              <h3 className="text-lg font-bold mb-4">Gợi ý từ VBMatch</h3>
+              <button
+                className="mb-4 bg-green-500 text-white py-2 px-4 rounded"
+                onClick={handleGetRecommendations}
+                disabled={isFetchingRecommendations}
+              >
+                {isFetchingRecommendations ? 'Đang lấy gợi ý...' : 'Gợi ý'}
+              </button>
+              {recommendations && (
+                <div className="prose max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{recommendations}</ReactMarkdown>
+                </div>
+              )}
+              {error && (
+                <p className="text-red-500 mt-4">{error}</p>
+              )}
             </div>
           </>
         )}
