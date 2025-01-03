@@ -17,13 +17,13 @@ const SearchBar = ({ setProducts, setLoading, isIncreasingPrice}) => {
             console.log('Sending request to:', url);
             const response = await axios.get(url);
             var products = response.data;
-            products.sort((a,b) => {
-                if (isIncreasingPrice) {
-                    return a.price - b.price;
-                } else {
-                    return b.price - a.price;
-                }
-            });
+            // products.sort((a,b) => {
+            //     if (isIncreasingPrice) {
+            //         return a.price - b.price;
+            //     } else {
+            //         return b.price - a.price;
+            //     }
+            // });
             setProducts(products);
             setLoading(false);
         } catch (err) {

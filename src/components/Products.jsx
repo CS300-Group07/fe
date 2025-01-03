@@ -77,15 +77,15 @@ const Products = () => {
     fetchProducts();
   }, [searchKey]);
 
-  useEffect(() => {
-    products.sort((b,a) => {
-      if (isIncreasingPrice) {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
-      }
-    });
-  }, [products, isIncreasingPrice]);
+  // useEffect(() => {
+  //   products.sort((b,a) => {
+  //     if (isIncreasingPrice) {
+  //       return a.price - b.price;
+  //     } else {
+  //       return b.price - a.price;
+  //     }
+  //   });
+  // }, [products, isIncreasingPrice]);
 
   if (isLoading) 
     return <LoadingSpinner />;

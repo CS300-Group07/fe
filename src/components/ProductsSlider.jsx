@@ -25,7 +25,7 @@ const ProductSlider = ({ title, products }) => {
     const moveToProductDetailPage = (productId) => {
         console.log('Navigating to product detail page with id:', productId);
         // Navigate to the product detail page
-        navigate(`/app/${appRoutes.PRODUCTS}/${productId}`, { state: { productId: productId } });
+        navigate(`/app/${appRoutes.PRODUCTS}/${productId}`);
     }
   return (
     <div className="bg-gray-100 py-12">
@@ -49,12 +49,12 @@ const ProductSlider = ({ title, products }) => {
             products.map((product, index) => (
               <SwiperSlide key={index}>
                 <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full transform hover:scale-105 transition-transform duration-300"
-                    onClick={() => moveToProductDetailPage(product.id)}
+                    onClick={() => moveToProductDetailPage(product.product_id)}
                 >
                     {/* Product Image */}
                     <div className="relative w-full h-64 overflow-hidden">
                         <img
-                        src={product.image}
+                        src={product.image_url}
                         alt={product.name}
                         className="h-full w-full object-contain"
                         />

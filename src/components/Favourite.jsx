@@ -17,7 +17,7 @@ const FavoritePage = () => {
   // Remove a product from favorites
   const removeFromFavorites = (productId) => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    const updatedFavorites = savedFavorites.filter((fav) => fav.id !== productId);
+    const updatedFavorites = savedFavorites.filter((fav) => fav.product_id !== productId);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     refreshFavoriteProducts(); // Refresh the favorite products list
   };
@@ -34,11 +34,11 @@ const FavoritePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {favoriteProducts.map((product) => (
               <div
-                key={product.id}
+                key={product.product_id}
                 className="bg-white border rounded-lg p-4 hover:shadow-lg transition relative"
               >
                 <img
-                  src={product.image}
+                  src={product.image_url}
                   alt={product.name}
                   className="h-64 w-full object-contain mb-4"
                 />
@@ -49,7 +49,7 @@ const FavoritePage = () => {
                 <p className="text-green-500 font-bold">${product.price}</p>
                 <div className="flex justify-between mt-4">
                   <button
-                    onClick={() => removeFromFavorites(product.id)}
+                    onClick={() => removeFromFavorites(product.product_id)}
                     className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600"
                   >
                     Remove
