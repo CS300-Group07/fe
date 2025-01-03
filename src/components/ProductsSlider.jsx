@@ -20,13 +20,19 @@ import { appRoutes } from "../constants/routes";
 SwiperCore.use([Navigation, Pagination]);
 
 const ProductSlider = ({ title, products }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const moveToProductDetailPage = (productId) => {
-        console.log('Navigating to product detail page with id:', productId);
-        // Navigate to the product detail page
-        navigate(`/app/${appRoutes.PRODUCTS}/${productId}`);
-    }
+  const moveToProductDetailPage = (productId) => {
+      console.log('Navigating to product detail page with id:', productId);
+      // Navigate to the product detail page
+      navigate(`/app/${appRoutes.PRODUCTS}/${productId}`);
+  }
+
+  const formatPrice = (value) => {
+    const number = Number(value);
+    if (isNaN(number)) return value;
+    return new Intl.NumberFormat('vi-VN').format(number);
+  };
   return (
     <div className="bg-gray-100 py-12">
       <div className="container mx-auto px-4">
@@ -67,11 +73,11 @@ const ProductSlider = ({ title, products }) => {
                         </h2>
                         {product.originalPrice && (
                             <p className="text-sm text-gray-500 line-through">
-                            ${product.originalPrice}
+                            {formatPrice(product.originalPrice)}đ
                             </p>
                         )}
                         <p className="text-lg font-semibold text-green-600">
-                            ${product.price}
+                            {formatPrice(product.price)}đ
                         </p>
                         
                     </div>

@@ -57,6 +57,12 @@ const FavoritePage = () => {
     }
   };
 
+  const formatPrice = (value) => {
+    const number = Number(value);
+    if (isNaN(number)) return value;
+    return new Intl.NumberFormat('vi-VN').format(number);
+  };
+
   const navigateToProductDetail = (productId) => {
     navigate(`/app/products/${productId}`);
   };
@@ -97,10 +103,10 @@ const FavoritePage = () => {
                 <h2 className="text-lg font-semibold">{product.name}</h2>
                 {product.originalPrice && (
                   <p className="text-red-500 text-sm line-through">
-                    ${product.originalPrice}
+                    {formatPrice(product.originalPrice)}đ
                   </p>
                 )}
-                <p className="text-green-500 font-bold">${product.price}</p>
+                <p className="text-green-500 font-bold">{formatPrice(product.price)}đ</p>
                 <div className="flex justify-between mt-4">
                   <button
                     onClick={(e) => {

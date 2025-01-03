@@ -81,6 +81,12 @@ const Products = () => {
     navigate(`${product.product_id}`);
   };
 
+  const formatPrice = (value) => {
+    const number = Number(value);
+    if (isNaN(number)) return value;
+    return new Intl.NumberFormat('vi-VN').format(number);
+  };
+
   // Fetch products when the component or searchKey changes
   useEffect(() => {
     const fetchProducts = async () => {
@@ -230,10 +236,10 @@ const Products = () => {
                   </h2>
                   {product.originalPrice && (
                     <p className="text-sm text-gray-500 line-through">
-                      ${product.originalPrice}
+                      {formatPrice(product.originalPrice)}đ
                     </p>
                   )}
-                  <p className="text-lg font-semibold text-green-600">${product.price}</p>
+                  <p className="text-lg font-semibold text-green-600">{formatPrice(product.price)}đ</p>
                 </div>
               </div>
             ))}
