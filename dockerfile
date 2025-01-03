@@ -10,9 +10,9 @@ COPY . .
 
 RUN npm run build 
 
-FROM nginx:1.21.3 
+#FROM nginx:1.21.3 
 
-COPY --from=build /app/build /usr/share/nginx/html 
+#COPY --from=build /app/build /usr/share/nginx/html 
 
-CMD ["nginx", "-g", "daemon off;"] 
+#CMD ["nginx", "-g", "daemon off;"] 
 
