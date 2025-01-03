@@ -221,7 +221,7 @@ const Products = () => {
                 </button>
 
                 {/* Product Image */}
-                <div className="h-64 w-full object-contain mb-4">
+                <div className="h-64 w-full object-contain mb-4 py-2">
                   <img
                     src={product.image_url}
                     alt={product.name}
