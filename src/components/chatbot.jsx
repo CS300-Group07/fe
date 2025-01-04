@@ -20,7 +20,7 @@ function ChatbotScreen() {
     if (userId) {
       try {
         const response = await axios.get(
-          `https://c78a-14-187-122-186.ngrok-free.app/chatbot/conversation_list/${userId}`
+          `http://localhost:5002/chatbot/conversation_list/${userId}`
         );
 
         // Convert the response data into the desired format
@@ -38,7 +38,7 @@ function ChatbotScreen() {
     } else {
       // User ID does not exist, fetch announcements
       try {
-        const response = await axios.get('https://c78a-14-187-122-186.ngrok-free.app/chatbot/announcements');
+        const response = await axios.get('http://localhost:5002/chatbot/announcements');
         setConversations(response.data);
       } catch (error) {
         console.error('Error fetching announcements:', error);
@@ -51,7 +51,7 @@ function ChatbotScreen() {
     if (userId) {
       try {
         const response = await axios.post(
-          `https://c78a-14-187-122-186.ngrok-free.app/chatbot/create/${userId}`
+          `http://localhost:5002/chatbot/create/${userId}`
         );
 
         // Assuming the response contains the new conversation ID
