@@ -5,7 +5,7 @@ import ChatWindow from './ChatWindow';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-function ChatbotScreen() {
+function ChatbotScreen() { 
   const userId = Cookies.get('userId');
   const [conversations, setConversations] = useState([]);
   const [conversationTitles, setConversationTitles] = useState([]);

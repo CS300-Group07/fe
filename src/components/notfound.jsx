@@ -1,6 +1,6 @@
 import React from "react";
 
-const NotFound = () => {
+const NotFound = () => { 
   return (
     <div className="min-h-screen bg-purple-50 flex flex-col justify-between">
       {/* 404 Content */}
